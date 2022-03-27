@@ -1,3 +1,9 @@
 ## 0.0.1
 
-* TODO: Describe initial release.
+* Initial release
+
+## 0.0.2
+
+* Improved naming convention
+* More detail on condensed header
+* Handle RenderFlow errors on text
