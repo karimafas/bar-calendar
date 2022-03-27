@@ -388,42 +388,61 @@ class Header extends StatelessWidget {
               ? Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: daysBetween
-                      .map((d) => Container(
-                            width: headerWidth / daysBetween.length,
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text(
-                                    d.day == 1 || d == minDate || d == maxDate
-                                        ? monthFormatter.format(d).toUpperCase()
-                                        : '',
-                                    style: _display5),
-                                const SizedBox(height: 2),
-                                Row(
+                      .map((d) => Row(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Container(
+                                width: headerWidth / daysBetween.length - 1,
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 10),
+                                child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Text(dayFormatter.format(d).substring(0, 1),
-                                        style: _display4,
-                                        textAlign: TextAlign.start),
-                                    Text(dateFormatter.format(d),
-                                        style: _display2,
-                                        textAlign: TextAlign.start),
+                                    Text(
+                                        d.day == 1 ||
+                                                d == minDate ||
+                                                d == maxDate
+                                            ? monthFormatter
+                                                .format(d)
+                                                .toUpperCase()
+                                            : '',
+                                        style: _display5),
+                                    const SizedBox(height: 2),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                            dayFormatter
+                                                .format(d)
+                                                .substring(0, 1),
+                                            style: _display4,
+                                            textAlign: TextAlign.start),
+                                        Text(dateFormatter.format(d),
+                                            style: _display2,
+                                            textAlign: TextAlign.start),
+                                      ],
+                                    ),
                                   ],
                                 ),
-                              ],
-                            ),
+                              ),
+                              Container(
+                                  width: 1,
+                                  height: 10,
+                                  color: Colors.grey.withOpacity(.2))
+                            ],
                           ))
                       .toList())
               : Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: months
-                      .map((m) => Container(
-                            width: 20,
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
-                            child: Text(m.name.substring(0, 1).toUpperCase(),
-                                style: _display4),
+                      .map((m) => SizedBox(
+                            width: headerWidth / daysBetween.length - 1,
+                            child: Center(
+                              child: Text(m.name.substring(0, 1).toUpperCase(),
+                                  style: _display4),
+                            ),
                           ))
                       .toList()));
     });
