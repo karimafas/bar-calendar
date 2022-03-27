@@ -101,17 +101,17 @@ class CalendarEvent {
   DateTime start;
   DateTime end;
 
-  EventBarType eventBarType;
+  EventBarSize eventBarSize;
 
   CalendarEvent(
       {required this.title,
       required this.color,
       required this.start,
       required this.end,
-      this.eventBarType = EventBarType.small});
+      this.eventBarSize = EventBarSize.small});
 }
 
-enum EventBarType { large, small }
+enum EventBarSize { large, small }
 
 class BarCalendar extends StatefulWidget {
   const BarCalendar(
@@ -197,7 +197,7 @@ class _BarCalendarState extends State<BarCalendar> {
                 padding: const EdgeInsets.only(top: headerHeight + 15),
                 children: [
                   ...widget.events
-                      .map((e) => e.eventBarType == EventBarType.large
+                      .map((e) => e.eventBarSize == EventBarSize.large
                           ? EventBarLarge(
                               event: e, minDate: minDate, maxDate: maxDate)
                           : EventBarSmall(

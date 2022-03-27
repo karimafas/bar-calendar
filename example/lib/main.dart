@@ -5,13 +5,13 @@ main() {
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
     home: Scaffold(
-      body: HomePahe(),
+      body: HomePage(),
     ),
   ));
 }
 
-class HomePahe extends StatelessWidget {
-  const HomePahe({
+class HomePage extends StatelessWidget {
+  const HomePage({
     Key? key,
   }) : super(key: key);
 
@@ -29,14 +29,14 @@ class HomePahe extends StatelessWidget {
               start: DateTime.now(),
               end: DateTime.now().add(const Duration(days: 8))),
           CalendarEvent(
-              title: 'First Event',
+              title: 'Second Event',
               color: Colors.white,
               start: DateTime.now(),
               end: DateTime.now().add(const Duration(days: 8))),
           CalendarEvent(
-              title: 'Second Event',
+              title: 'Third Event',
+              eventBarSize: EventBarSize.large,
               color: Colors.white,
-              eventBarType: EventBarType.large,
               start: DateTime.now().subtract(const Duration(days: 3)),
               end: DateTime.now().add(const Duration(days: 10)))
         ],
