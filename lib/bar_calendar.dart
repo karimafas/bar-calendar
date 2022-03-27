@@ -25,8 +25,6 @@ TextStyle _display6 = const TextStyle(
 const double dayColumnWidth = 60;
 const double headerHeight = 70;
 
-enum EventType { start, end, startEnd, infinite }
-
 enum Months {
   infinity,
   january,
@@ -99,20 +97,58 @@ class Month {
 
 /// Defines events to be shown in the bar calendar.
 class CalendarEvent {
+  /// The event title.
   String title;
-  Color color;
 
+  /// Background color for the event bar.
+  Color? color;
+
+  /// The event's start date.
   DateTime start;
+
+  /// The event's end date.
   DateTime end;
 
+  /// The event bar's size (large or small).
   EventBarSize eventBarSize;
+
+  /// Decoration class to access further styling properties for the event bar.
+  EventBarDecoration? decoration;
 
   CalendarEvent(
       {required this.title,
-      required this.color,
+      this.color,
       required this.start,
       required this.end,
+      this.decoration,
       this.eventBarSize = EventBarSize.small});
+}
+
+/// Defines the style of the calendar header.
+class CalendarHeaderDecoration {
+  /// Header background color.
+  Color? backgroundColor;
+
+  /// Day (number) text style.
+  TextStyle? day;
+
+  /// Weekday (letter) text style.
+  TextStyle? weekday;
+
+  /// Month text style, applied when in condensed view.
+  TextStyle? month;
+
+  CalendarHeaderDecoration(
+      {this.backgroundColor, this.day, this.weekday, this.month});
+}
+
+/// Defines the style of a calendar event.
+class EventBarDecoration {
+  TextStyle? main;
+  TextStyle? dates;
+  Icon? icon;
+
+  EventBarDecoration({this.main, this.dates, this.icon});
 }
 
 /// Defines which size event should be displayed in the calendar.
@@ -121,11 +157,15 @@ enum EventBarSize { large, small }
 /// A calendar widget, displaying a number of events in bar format.
 class BarCalendar extends StatefulWidget {
   const BarCalendar(
-      {Key? key, required this.events, this.backgroundColor = Colors.white})
+      {Key? key,
+      required this.events,
+      this.backgroundColor = Colors.white,
+      this.headerDecoration})
       : super(key: key);
 
   final List<CalendarEvent> events;
   final Color backgroundColor;
+  final CalendarHeaderDecoration? headerDecoration;
 
   @override
   State<BarCalendar> createState() => _BarCalendarState();
@@ -205,12 +245,22 @@ class _BarCalendarState extends State<BarCalendar> {
                   ...widget.events
                       .map((e) => e.eventBarSize == EventBarSize.large
                           ? EventBarLarge(
-                              event: e, minDate: minDate, maxDate: maxDate)
+                              event: e,
+                              minDate: minDate,
+                              maxDate: maxDate,
+                              decoration: e.decoration)
                           : EventBarSmall(
-                              event: e, minDate: minDate, maxDate: maxDate))
+                              event: e,
+                              minDate: minDate,
+                              maxDate: maxDate,
+                              decoration: e.decoration))
                       .toList(),
                 ]),
-            Header(daysBetween: days, minDate: minDate, maxDate: maxDate),
+            Header(
+                daysBetween: days,
+                minDate: minDate,
+                maxDate: maxDate,
+                decoration: widget.headerDecoration),
             CurrentDayIndicator(
                 days: days, headerWidth: headerWidth, totalDays: totalDays),
             Positioned(
@@ -367,12 +417,14 @@ class Header extends StatelessWidget {
       {Key? key,
       required this.daysBetween,
       required this.minDate,
-      required this.maxDate})
+      required this.maxDate,
+      this.decoration})
       : super(key: key);
 
   final List<DateTime> daysBetween;
   final DateTime minDate;
   final DateTime maxDate;
+  final CalendarHeaderDecoration? decoration;
 
   @override
   Widget build(BuildContext context) {
@@ -400,9 +452,11 @@ class Header extends StatelessWidget {
       return Container(
           margin: const EdgeInsets.only(bottom: 30),
           height: headerHeight,
-          decoration: BoxDecoration(color: Colors.white, boxShadow: [
-            BoxShadow(blurRadius: 5, color: Colors.black.withOpacity(.2))
-          ]),
+          decoration: BoxDecoration(
+              color: decoration?.backgroundColor ?? Colors.white,
+              boxShadow: [
+                BoxShadow(blurRadius: 5, color: Colors.black.withOpacity(.2))
+              ]),
           child: headerType == HeaderType.full
               ? Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -426,7 +480,7 @@ class Header extends StatelessWidget {
                                                 .format(d)
                                                 .toUpperCase()
                                             : '',
-                                        style: _display5),
+                                        style: decoration?.month ?? _display5),
                                     const SizedBox(height: 2),
                                     Row(
                                       mainAxisAlignment:
@@ -436,10 +490,11 @@ class Header extends StatelessWidget {
                                             dayFormatter
                                                 .format(d)
                                                 .substring(0, 1),
-                                            style: _display4,
+                                            style: decoration?.weekday ??
+                                                _display4,
                                             textAlign: TextAlign.start),
                                         Text(dateFormatter.format(d),
-                                            style: _display2,
+                                            style: decoration?.day ?? _display2,
                                             textAlign: TextAlign.start),
                                       ],
                                     ),
@@ -474,12 +529,14 @@ class EventBarLarge extends StatelessWidget {
       {Key? key,
       required this.event,
       required this.minDate,
-      required this.maxDate})
+      required this.maxDate,
+      this.decoration})
       : super(key: key);
 
   final CalendarEvent event;
   final DateTime minDate;
   final DateTime maxDate;
+  final EventBarDecoration? decoration;
 
   @override
   Widget build(BuildContext context) {
@@ -493,7 +550,7 @@ class EventBarLarge extends StatelessWidget {
               height: 100,
               margin: const EdgeInsets.only(bottom: 15),
               decoration: BoxDecoration(
-                  color: event.color,
+                  color: event.color ?? Colors.white,
                   borderRadius: BorderRadius.circular(6),
                   boxShadow: [
                     BoxShadow(
@@ -511,7 +568,7 @@ class EventBarLarge extends StatelessWidget {
                       child: SizedBox(
                         child: Text(
                           event.title,
-                          style: _display1,
+                          style: decoration?.main ?? _display1,
                           overflow: TextOverflow.fade,
                           maxLines: 1,
                           softWrap: false,
@@ -521,14 +578,15 @@ class EventBarLarge extends StatelessWidget {
                     const SizedBox(height: 3),
                     Row(
                       children: [
-                        const Icon(Icons.flag_rounded,
-                            color: Colors.grey, size: 10),
+                        decoration?.icon ??
+                            const Icon(Icons.flag_rounded,
+                                color: Colors.grey, size: 10),
                         const SizedBox(width: 5),
                         Flexible(
                           child: SizedBox(
                             child: Text(
                               '${formatter.format(event.start)} ${' - ${formatter.format(event.end)}'}',
-                              style: _display3,
+                              style: decoration?.dates ?? _display3,
                               overflow: TextOverflow.fade,
                               maxLines: 1,
                               softWrap: false,
@@ -552,12 +610,14 @@ class EventBarSmall extends StatelessWidget {
       {Key? key,
       required this.event,
       required this.minDate,
-      required this.maxDate})
+      required this.maxDate,
+      this.decoration})
       : super(key: key);
 
   final CalendarEvent event;
   final DateTime minDate;
   final DateTime maxDate;
+  final EventBarDecoration? decoration;
 
   @override
   Widget build(BuildContext context) {
@@ -571,7 +631,7 @@ class EventBarSmall extends StatelessWidget {
               height: 55,
               margin: const EdgeInsets.only(bottom: 15),
               decoration: BoxDecoration(
-                  color: event.color,
+                  color: event.color ?? Colors.white,
                   borderRadius: BorderRadius.circular(6),
                   boxShadow: [
                     BoxShadow(
@@ -588,7 +648,7 @@ class EventBarSmall extends StatelessWidget {
                       child: SizedBox(
                         child: Text(
                           event.title,
-                          style: _display2,
+                          style: decoration?.main ?? _display2,
                           overflow: TextOverflow.fade,
                           maxLines: 1,
                           softWrap: false,
@@ -596,7 +656,9 @@ class EventBarSmall extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(width: 10),
-                    const Icon(Icons.flag_rounded, color: Colors.grey, size: 8),
+                    decoration?.icon ??
+                        const Icon(Icons.flag_rounded,
+                            color: Colors.grey, size: 8),
                     const SizedBox(width: 5),
                     Flexible(
                       child: SizedBox(
@@ -605,7 +667,7 @@ class EventBarSmall extends StatelessWidget {
                             overflow: TextOverflow.fade,
                             maxLines: 1,
                             softWrap: false,
-                            style: _display3),
+                            style: decoration?.dates ?? _display3),
                       ),
                     )
                   ],

@@ -36,7 +36,10 @@ class HomePage extends StatelessWidget {
           CalendarEvent(
               title: 'Third Event',
               eventBarSize: EventBarSize.large,
-              color: Colors.white,
+              color: Colors.red,
+              decoration: EventBarDecoration(
+                main: TextStyle(color: Colors.white)
+              ),
               start: DateTime.now().subtract(const Duration(days: 3)),
               end: DateTime.now().add(const Duration(days: 10)))
         ],
