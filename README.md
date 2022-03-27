@@ -34,14 +34,17 @@ import 'package:bar_calendar/bar_calendar.dart';
         events: [
           CalendarEvent(
               title: 'First Event',
-              color: Colors.white,
               start: DateTime.now(),
               end: DateTime.now().add(const Duration(days: 8))),
           CalendarEvent(
               title: 'Second Event',
-              color: Colors.white,
               start: DateTime.now(),
-              end: DateTime.now().add(const Duration(days: 8)))
+              end: DateTime.now().add(const Duration(days: 8))),
+          CalendarEvent(
+              title: 'Third Event',
+              eventBarSize: EventBarSize.large,
+              start: DateTime.now().subtract(const Duration(days: 3)),
+              end: DateTime.now().add(const Duration(days: 10)))
         ],
       )
 ```

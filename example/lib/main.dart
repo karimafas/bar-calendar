@@ -21,27 +21,28 @@ class HomePage extends StatelessWidget {
         child: SizedBox(
       width: MediaQuery.of(context).size.width,
       child: BarCalendar(
-        backgroundColor: Colors.grey.withOpacity(.4),
+        backgroundColor: Color(0xFFE2F1FF),
+        headerDecoration:
+            CalendarHeaderDecoration(backgroundColor: Color(0xFFBADFFF)),
         events: [
           CalendarEvent(
-              title: 'First Event',
-              color: Colors.white,
+              title: 'Project 1',
               start: DateTime.now(),
               end: DateTime.now().add(const Duration(days: 8))),
           CalendarEvent(
-              title: 'Second Event',
-              color: Colors.white,
+              title: 'Project 2',
               start: DateTime.now(),
               end: DateTime.now().add(const Duration(days: 8))),
           CalendarEvent(
-              title: 'Third Event',
+              title: 'Project 3',
               eventBarSize: EventBarSize.large,
-              color: Colors.red,
-              decoration: EventBarDecoration(
-                main: TextStyle(color: Colors.white)
-              ),
               start: DateTime.now().subtract(const Duration(days: 3)),
-              end: DateTime.now().add(const Duration(days: 10)))
+              end: DateTime.now().add(const Duration(days: 10))),
+          CalendarEvent(
+              title: 'Project 4',
+              eventBarSize: EventBarSize.large,
+              start: DateTime.now().subtract(const Duration(days: 5)),
+              end: DateTime.now().add(const Duration(days: 4)))
         ],
       ),
     ));

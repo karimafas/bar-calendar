@@ -16,3 +16,4 @@
 ## 0.0.4
 
 * Removed superfluous dependencies
+

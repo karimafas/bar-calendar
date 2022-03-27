@@ -159,12 +159,12 @@ class BarCalendar extends StatefulWidget {
   const BarCalendar(
       {Key? key,
       required this.events,
-      this.backgroundColor = Colors.white,
+      this.backgroundColor,
       this.headerDecoration})
       : super(key: key);
 
   final List<CalendarEvent> events;
-  final Color backgroundColor;
+  final Color? backgroundColor;
   final CalendarHeaderDecoration? headerDecoration;
 
   @override
@@ -234,7 +234,7 @@ class _BarCalendarState extends State<BarCalendar> {
     return LayoutBuilder(builder: (layoutContext, constraints) {
       final double headerWidth = constraints.maxWidth;
       return Container(
-        color: widget.backgroundColor,
+        color: widget.backgroundColor ?? Colors.grey.withOpacity(.4),
         child: Stack(
           children: [
             DaySeparators(
