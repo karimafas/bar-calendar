@@ -1,7 +1,7 @@
 name: bar_calendar
-description: A new Flutter package project.
+description: A package that allows the creation of event and schedule-based calendars.
 version: 0.0.1
-homepage:
+repository: https://github.com/karimafas/bar-calendar
 
 environment:
   sdk: ">=2.15.0 <3.0.0"
