@@ -40,7 +40,7 @@ enum Months {
 int daysBetween(DateTime from, DateTime to) {
   from = DateTime(from.year, from.month, from.day);
   to = DateTime(to.year, to.month, to.day);
-  return (to.difference(from).inHours / 24).round() + 1;
+  return (to.difference(from).inHours / 24).round();
 }
 
 int minutesBetween(DateTime from, DateTime to) {
@@ -117,11 +117,10 @@ class _BarCalendarState extends State<BarCalendar> {
     DateTimeRange? picked = await showDateRangePicker(
         context: context,
         firstDate: DateTime(DateTime.now().year - 5),
-        lastDate: DateTime(DateTime.now().year + 5),
+        lastDate: DateTime(DateTime.now().year + 100),
         initialDateRange: DateTimeRange(
-          end: DateTime(DateTime.now().year, DateTime.now().month,
-              DateTime.now().day + 13),
-          start: DateTime.now(),
+          end: maxDate,
+          start: minDate,
         ),
         builder: (context, child) {
           return Column(
@@ -288,8 +287,10 @@ class CurrentDayIndicator extends StatelessWidget {
                           ],
                         ),
                         Expanded(
-                            flex: minutesBetween(DateTime.now(),
-                                DateTime(now.year, now.month, now.day + 1, 0, 0)),
+                            flex: minutesBetween(
+                                DateTime.now(),
+                                DateTime(
+                                    now.year, now.month, now.day + 1, 0, 0)),
                             child: Container()),
                       ],
                     ),
@@ -421,14 +422,8 @@ class Header extends StatelessWidget {
                       .map((m) => Container(
                             width: 20,
                             padding: const EdgeInsets.symmetric(horizontal: 10),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(m.name.substring(0, 1).toUpperCase(),
-                                    style: _display4),
-                              ],
-                            ),
+                            child: Text(m.name.substring(0, 1).toUpperCase(),
+                                style: _display4),
                           ))
                       .toList()));
     });
@@ -473,11 +468,29 @@ class EventBarLarge extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(event.title, style: _display1),
+                    Flexible(
+                      child: SizedBox(
+                        child: Text(
+                          event.title,
+                          style: _display1,
+                          overflow: TextOverflow.fade,
+                          maxLines: 1,
+                          softWrap: false,
+                        ),
+                      ),
+                    ),
                     const SizedBox(height: 3),
-                    Text(
-                        '${formatter.format(event.start)} ${' - ${formatter.format(event.end)}'}',
-                        style: _display3)
+                    Flexible(
+                      child: SizedBox(
+                        child: Text(
+                          '${formatter.format(event.start)} ${' - ${formatter.format(event.end)}'}',
+                          style: _display3,
+                          overflow: TextOverflow.fade,
+                          maxLines: 1,
+                          softWrap: false,
+                        ),
+                      ),
+                    )
                   ],
                 ),
               )),
@@ -525,17 +538,35 @@ class EventBarSmall extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Text(event.title, style: _display2),
-                    const SizedBox(width: 10),
-                    Container(
-                        height: 4,
-                        width: 4,
+                    Flexible(
+                      child: SizedBox(
+                        child: Text(
+                          event.title,
+                          style: _display2,
+                          overflow: TextOverflow.fade,
+                          maxLines: 1,
+                          softWrap: false,
+                        ),
+                      ),
+                    ),
+                    Flexible(
+                      child: Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 10),
+                        width: 3,
                         decoration: const BoxDecoration(
-                            color: Colors.grey, shape: BoxShape.circle)),
-                    const SizedBox(width: 10),
-                    Text(
-                        '${formatter.format(event.start)} ${' - ${formatter.format(event.end)}'}',
-                        style: _display3)
+                            color: Colors.grey, shape: BoxShape.circle),
+                      ),
+                    ),
+                    Flexible(
+                      child: SizedBox(
+                        child: Text(
+                            '${formatter.format(event.start)} ${' - ${formatter.format(event.end)}'}',
+                            overflow: TextOverflow.fade,
+                            maxLines: 1,
+                            softWrap: false,
+                            style: _display3),
+                      ),
+                    )
                   ],
                 ),
               )),
