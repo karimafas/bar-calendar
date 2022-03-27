@@ -12,3 +12,7 @@
 
 * Updated readme and package info
 * Added more customisation options
+
+## 0.0.4
+
+* Removed superfluous dependencies
