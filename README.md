@@ -15,7 +15,7 @@ and the Flutter guide for
 
 This package allows the creation of event-based project calendars.
 
-<img src="https://raw.githubusercontent.com/karimafas/bar-calendar/master/bar-calendar-snap.png" width="150">
+<img src="https://raw.githubusercontent.com/karimafas/bar-calendar/master/bar-calendar-snap.png" width="600">
 
 ## Installing:
 In your pubspec.yaml
