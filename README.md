@@ -11,7 +11,11 @@ and the Flutter guide for
 [developing packages and plugins](https://flutter.dev/developing-packages). 
 -->
 
+
+
 This package allows the creation of event-based project calendars.
+
+![alt text](https://raw.githubusercontent.com/karimafas/bar-calendar/master/bar-calendar-snap.png)
 
 ## Installing:
 In your pubspec.yaml
