@@ -23,17 +23,17 @@ class HomePahe extends StatelessWidget {
       child: BarCalendar(
         backgroundColor: Colors.grey.withOpacity(.4),
         events: [
-          EventObj(
+          CalendarEvent(
               title: 'First Event',
               color: Colors.white,
               start: DateTime.now(),
               end: DateTime.now().add(const Duration(days: 8))),
-          EventObj(
+          CalendarEvent(
               title: 'First Event',
               color: Colors.white,
               start: DateTime.now(),
               end: DateTime.now().add(const Duration(days: 8))),
-          EventObj(
+          CalendarEvent(
               title: 'Second Event',
               color: Colors.white,
               eventBarType: EventBarType.large,

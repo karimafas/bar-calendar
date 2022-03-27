@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 extension StringExtension on String {
-    String capitalize() {
-      return "${this[0].toUpperCase()}${substring(1).toLowerCase()}";
-    }
+  String capitalize() {
+    return "${this[0].toUpperCase()}${substring(1).toLowerCase()}";
+  }
 }
 
 TextStyle _display1 = const TextStyle(
@@ -94,7 +94,7 @@ class Month {
   Month(this.month, this.year);
 }
 
-class EventObj {
+class CalendarEvent {
   String title;
   Color color;
 
@@ -103,7 +103,7 @@ class EventObj {
 
   EventBarType eventBarType;
 
-  EventObj(
+  CalendarEvent(
       {required this.title,
       required this.color,
       required this.start,
@@ -118,7 +118,7 @@ class BarCalendar extends StatefulWidget {
       {Key? key, required this.events, this.backgroundColor = Colors.white})
       : super(key: key);
 
-  final List<EventObj> events;
+  final List<CalendarEvent> events;
   final Color backgroundColor;
 
   @override
@@ -453,7 +453,8 @@ class Header extends StatelessWidget {
                       .map((m) => Container(
                             padding: const EdgeInsets.symmetric(horizontal: 20),
                             child: Center(
-                              child: Text('${m.month.name.capitalize()} ${m.year}',
+                              child: Text(
+                                  '${m.month.name.capitalize()} ${m.year}',
                                   style: _display4),
                             ),
                           ))
@@ -470,7 +471,7 @@ class EventBarLarge extends StatelessWidget {
       required this.maxDate})
       : super(key: key);
 
-  final EventObj event;
+  final CalendarEvent event;
   final DateTime minDate;
   final DateTime maxDate;
 
@@ -548,7 +549,7 @@ class EventBarSmall extends StatelessWidget {
       required this.maxDate})
       : super(key: key);
 
-  final EventObj event;
+  final CalendarEvent event;
   final DateTime minDate;
   final DateTime maxDate;
 
