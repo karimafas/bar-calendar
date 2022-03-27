@@ -43,12 +43,14 @@ enum Months {
   december
 }
 
+/// Returns the number of days between date [from] and [to].
 int daysBetween(DateTime from, DateTime to) {
   from = DateTime(from.year, from.month, from.day);
   to = DateTime(to.year, to.month, to.day);
   return (to.difference(from).inHours / 24).round();
 }
 
+/// Returns the number of minutes between date [from] and [to].
 int minutesBetween(DateTime from, DateTime to) {
   from = DateTime(from.year, from.month, from.day, from.hour, from.minute);
   to = DateTime(to.year, to.month, to.day, to.hour, to.month);
@@ -87,6 +89,7 @@ Months month(int m) {
   }
 }
 
+/// Mainly used in the Header widget to display a month and year.
 class Month {
   Months month;
   int year;
@@ -94,6 +97,7 @@ class Month {
   Month(this.month, this.year);
 }
 
+/// Defines events to be shown in the bar calendar.
 class CalendarEvent {
   String title;
   Color color;
@@ -111,8 +115,10 @@ class CalendarEvent {
       this.eventBarSize = EventBarSize.small});
 }
 
+/// Defines which size event should be displayed in the calendar.
 enum EventBarSize { large, small }
 
+/// A calendar widget, displaying a number of events in bar format.
 class BarCalendar extends StatefulWidget {
   const BarCalendar(
       {Key? key, required this.events, this.backgroundColor = Colors.white})

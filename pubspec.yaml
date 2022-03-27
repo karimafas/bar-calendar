@@ -1,6 +1,6 @@
 name: bar_calendar
 description: A package that allows the creation of project calendars.
-version: 0.0.2
+version: 0.0.3
 repository: https://github.com/karimafas/bar-calendar
 
 environment:

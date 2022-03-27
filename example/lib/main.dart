@@ -2,7 +2,7 @@ import 'package:bar_calendar/bar_calendar.dart';
 import 'package:flutter/material.dart';
 
 main() {
-  runApp(MaterialApp(
+  runApp(const MaterialApp(
     debugShowCheckedModeBanner: false,
     home: Scaffold(
       body: HomePage(),
