@@ -14,7 +14,13 @@ main() {
                 title: 'First Event',
                 color: Colors.white,
                 start: DateTime.now(),
-                end: DateTime.now().add(const Duration(days: 100)))
+                end: DateTime.now().add(const Duration(days: 8))),
+            EventObj(
+                title: 'Second Event',
+                color: Colors.white,
+                eventBarType: EventBarType.large,
+                start: DateTime.now().subtract(const Duration(days: 3)),
+                end: DateTime.now().add(const Duration(days: 10)))
           ],
         ),
       )),
