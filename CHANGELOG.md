@@ -11,3 +11,4 @@
 ## 0.0.3
 
 * Updated readme and package info
+* Added more customisation options
