@@ -3,6 +3,12 @@ library bar_calendar;
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+extension StringExtension on String {
+    String capitalize() {
+      return "${this[0].toUpperCase()}${substring(1).toLowerCase()}";
+    }
+}
+
 TextStyle _display1 = const TextStyle(
     color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold);
 TextStyle _display2 = const TextStyle(
@@ -79,6 +85,13 @@ Months month(int m) {
     default:
       return Months.infinity;
   }
+}
+
+class Month {
+  Months month;
+  int year;
+
+  Month(this.month, this.year);
 }
 
 class EventObj {
@@ -364,7 +377,7 @@ class Header extends StatelessWidget {
     return LayoutBuilder(builder: (context, constraints) {
       final double headerWidth = constraints.maxWidth;
       HeaderType headerType = HeaderType.full;
-      final List<Months> months = [];
+      final List<Month> months = [];
 
       if (headerWidth / daysBetween.length < dayColumnWidth) {
         headerType = HeaderType.condensed;
@@ -372,7 +385,7 @@ class Header extends StatelessWidget {
         int lastMonth = -1;
         for (final date in daysBetween) {
           if (date.month != lastMonth) {
-            months.add(month(date.month));
+            months.add(Month(month(date.month), date.year));
             lastMonth = date.month;
           }
         }
@@ -437,10 +450,10 @@ class Header extends StatelessWidget {
               : Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: months
-                      .map((m) => SizedBox(
-                            width: headerWidth / daysBetween.length - 1,
+                      .map((m) => Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
                             child: Center(
-                              child: Text(m.name.substring(0, 1).toUpperCase(),
+                              child: Text('${m.month.name.capitalize()} ${m.year}',
                                   style: _display4),
                             ),
                           ))
@@ -576,8 +589,7 @@ class EventBarSmall extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(width: 10),
-                    const Icon(Icons.flag_rounded,
-                        color: Colors.grey, size: 8),
+                    const Icon(Icons.flag_rounded, color: Colors.grey, size: 8),
                     const SizedBox(width: 5),
                     Flexible(
                       child: SizedBox(
