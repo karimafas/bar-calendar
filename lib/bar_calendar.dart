@@ -499,16 +499,23 @@ class EventBarLarge extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 3),
-                    Flexible(
-                      child: SizedBox(
-                        child: Text(
-                          '${formatter.format(event.start)} ${' - ${formatter.format(event.end)}'}',
-                          style: _display3,
-                          overflow: TextOverflow.fade,
-                          maxLines: 1,
-                          softWrap: false,
+                    Row(
+                      children: [
+                        const Icon(Icons.flag_rounded,
+                            color: Colors.grey, size: 10),
+                        const SizedBox(width: 5),
+                        Flexible(
+                          child: SizedBox(
+                            child: Text(
+                              '${formatter.format(event.start)} ${' - ${formatter.format(event.end)}'}',
+                              style: _display3,
+                              overflow: TextOverflow.fade,
+                              maxLines: 1,
+                              softWrap: false,
+                            ),
+                          ),
                         ),
-                      ),
+                      ],
                     )
                   ],
                 ),
@@ -568,14 +575,10 @@ class EventBarSmall extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Flexible(
-                      child: Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 10),
-                        width: 3,
-                        decoration: const BoxDecoration(
-                            color: Colors.grey, shape: BoxShape.circle),
-                      ),
-                    ),
+                    const SizedBox(width: 10),
+                    const Icon(Icons.flag_rounded,
+                        color: Colors.grey, size: 8),
+                    const SizedBox(width: 5),
                     Flexible(
                       child: SizedBox(
                         child: Text(
