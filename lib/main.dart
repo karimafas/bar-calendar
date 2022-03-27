@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 
 main() {
   runApp(MaterialApp(
-    builder: (context, widget) => Scaffold(
+    debugShowCheckedModeBanner: false,
+    home: Scaffold(
       body: Center(
           child: SizedBox(
         width: 1000,
@@ -11,6 +12,11 @@ main() {
           backgroundColor: Colors.grey.withOpacity(.4),
           events: [
             EventObj(
+                title: 'First Event',
+                color: Colors.white,
+                start: DateTime.now(),
+                end: DateTime.now().add(const Duration(days: 8))),
+                EventObj(
                 title: 'First Event',
                 color: Colors.white,
                 start: DateTime.now(),

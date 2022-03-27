@@ -1,7 +1,6 @@
 library bar_calendar;
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
 TextStyle _display1 = const TextStyle(
@@ -14,6 +13,8 @@ TextStyle _display4 = const TextStyle(
     color: Colors.grey, fontSize: 16, fontWeight: FontWeight.bold);
 TextStyle _display5 = const TextStyle(
     color: Colors.grey, fontSize: 10, fontWeight: FontWeight.normal);
+TextStyle _display6 = const TextStyle(
+    color: Colors.black, fontSize: 12, fontWeight: FontWeight.bold);
 
 const double dayColumnWidth = 60;
 const double headerHeight = 70;
@@ -39,7 +40,14 @@ enum Months {
 int daysBetween(DateTime from, DateTime to) {
   from = DateTime(from.year, from.month, from.day);
   to = DateTime(to.year, to.month, to.day);
-  return (to.difference(from).inHours / 24).round();
+  return (to.difference(from).inHours / 24).round() + 1;
+}
+
+int minutesBetween(DateTime from, DateTime to) {
+  from = DateTime(from.year, from.month, from.day, from.hour, from.minute);
+  to = DateTime(to.year, to.month, to.day, to.hour, to.month);
+
+  return (to.difference(from).inMinutes).round();
 }
 
 Months month(int m) {
@@ -105,6 +113,37 @@ class BarCalendar extends StatefulWidget {
 }
 
 class _BarCalendarState extends State<BarCalendar> {
+  _pickDateRange() async {
+    DateTimeRange? picked = await showDateRangePicker(
+        context: context,
+        firstDate: DateTime(DateTime.now().year - 5),
+        lastDate: DateTime(DateTime.now().year + 5),
+        initialDateRange: DateTimeRange(
+          end: DateTime(DateTime.now().year, DateTime.now().month,
+              DateTime.now().day + 13),
+          start: DateTime.now(),
+        ),
+        builder: (context, child) {
+          return Column(
+            children: [
+              ConstrainedBox(
+                constraints: const BoxConstraints(
+                  maxWidth: 400.0,
+                ),
+                child: child,
+              )
+            ],
+          );
+        });
+
+    if (picked != null) {
+      setState(() {
+        minDate = picked.start;
+        maxDate = picked.end;
+      });
+    }
+  }
+
   late DateTime minDate;
   late DateTime maxDate;
 
@@ -134,72 +173,170 @@ class _BarCalendarState extends State<BarCalendar> {
       days.add(minDate.add(Duration(days: i)));
     }
 
-    return LayoutBuilder(builder: (context, constraints) {
+    return LayoutBuilder(builder: (layoutContext, constraints) {
       final double headerWidth = constraints.maxWidth;
       return Container(
         color: widget.backgroundColor,
         child: Stack(
           children: [
-            Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: days
-                    .asMap()
-                    .map((index, d) => MapEntry(
-                          index,
-                          Row(
-                            children: [
-                              Container(
-                                  width: headerWidth / totalDays - 1,
-                                  color: d.weekday == 6 || d.weekday == 7
-                                      ? Colors.grey.withOpacity(.3)
-                                      : Colors.transparent),
-                              Container(
-                                  width: 1,
-                                  color: index != days.length - 1
-                                      ? Colors.grey.withOpacity(.4)
-                                      : Colors.transparent)
-                            ],
-                          ),
-                        ))
-                    .values
-                    .toList()),
-            Column(children: [
-              Header(daysBetween: days, minDate: minDate, maxDate: maxDate),
-              ...widget.events
-                  .map((e) => e.eventBarType == EventBarType.large
-                      ? EventBarLarge(
-                          event: e, minDate: minDate, maxDate: maxDate)
-                      : EventBarSmall(
-                          event: e, minDate: minDate, maxDate: maxDate))
-                  .toList(),
-            ]),
-            Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: days
-                    .asMap()
-                    .map((index, d) => MapEntry(
-                          index,
-                          Container(
-                            padding: const EdgeInsets.only(top: headerHeight),
-                            width: headerWidth / totalDays,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Container(
-                                    width: 2.5,
-                                    color: d.day == DateTime.now().day
-                                        ? Colors.blue.withOpacity(.5)
-                                        : Colors.transparent),
-                              ],
-                            ),
-                          ),
-                        ))
-                    .values
-                    .toList()),
+            DaySeparators(
+                days: days, headerWidth: headerWidth, totalDays: totalDays),
+            ListView(
+                padding: const EdgeInsets.only(top: headerHeight + 15),
+                children: [
+                  ...widget.events
+                      .map((e) => e.eventBarType == EventBarType.large
+                          ? EventBarLarge(
+                              event: e, minDate: minDate, maxDate: maxDate)
+                          : EventBarSmall(
+                              event: e, minDate: minDate, maxDate: maxDate))
+                      .toList(),
+                ]),
+            Header(daysBetween: days, minDate: minDate, maxDate: maxDate),
+            CurrentDayIndicator(
+                days: days, headerWidth: headerWidth, totalDays: totalDays),
+            Positioned(
+              bottom: 30,
+              right: 30,
+              child: DateRangePicker(
+                  minDate: minDate, maxDate: maxDate, onTap: _pickDateRange),
+            )
           ],
         ),
       );
     });
+  }
+}
+
+class DateRangePicker extends StatelessWidget {
+  const DateRangePicker({
+    Key? key,
+    required this.minDate,
+    required this.maxDate,
+    required this.onTap,
+  }) : super(key: key);
+
+  final DateTime minDate;
+  final DateTime maxDate;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    DateFormat formatter = DateFormat('d MMMM');
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        height: 40,
+        width: 200,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(6),
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 5)
+            ]),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Text(formatter.format(minDate), style: _display6),
+            const Icon(Icons.arrow_right),
+            Text(formatter.format(maxDate), style: _display6),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class CurrentDayIndicator extends StatelessWidget {
+  const CurrentDayIndicator({
+    Key? key,
+    required this.days,
+    required this.headerWidth,
+    required this.totalDays,
+  }) : super(key: key);
+
+  final List<DateTime> days;
+  final double headerWidth;
+  final int totalDays;
+
+  @override
+  Widget build(BuildContext context) {
+    DateTime now = DateTime.now();
+    return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: days
+            .asMap()
+            .map((index, d) => MapEntry(
+                  index,
+                  Container(
+                    padding: const EdgeInsets.only(top: headerHeight),
+                    width: headerWidth / totalDays,
+                    child: Row(
+                      children: [
+                        Expanded(
+                            flex: minutesBetween(
+                                DateTime(now.year, now.month, now.day, 0, 0),
+                                DateTime.now()),
+                            child: Container()),
+                        Row(
+                          children: [
+                            Container(
+                                width: 2.5,
+                                color: d.day == DateTime.now().day
+                                    ? Colors.blue.withOpacity(.5)
+                                    : Colors.transparent),
+                          ],
+                        ),
+                        Expanded(
+                            flex: minutesBetween(DateTime.now(),
+                                DateTime(now.year, now.month, now.day + 1, 0, 0)),
+                            child: Container()),
+                      ],
+                    ),
+                  ),
+                ))
+            .values
+            .toList());
+  }
+}
+
+class DaySeparators extends StatelessWidget {
+  const DaySeparators({
+    Key? key,
+    required this.days,
+    required this.headerWidth,
+    required this.totalDays,
+  }) : super(key: key);
+
+  final List<DateTime> days;
+  final double headerWidth;
+  final int totalDays;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: days
+            .asMap()
+            .map((index, d) => MapEntry(
+                  index,
+                  Row(
+                    children: [
+                      Container(
+                          width: headerWidth / totalDays - 1,
+                          color: d.weekday == 6 || d.weekday == 7
+                              ? Colors.grey.withOpacity(.3)
+                              : Colors.transparent),
+                      Container(
+                          width: 1,
+                          color: index != days.length - 1
+                              ? Colors.grey.withOpacity(.4)
+                              : Colors.transparent)
+                    ],
+                  ),
+                ))
+            .values
+            .toList());
   }
 }
 
