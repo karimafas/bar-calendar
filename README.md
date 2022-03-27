@@ -23,9 +23,6 @@ dependencies:
 import 'package:bar_calendar/bar_calendar.dart';
 ```
 
-<br>
-<br>
-
 ## Basic Usage:
 ```dart
     BarCalendar(
@@ -44,6 +41,3 @@ import 'package:bar_calendar/bar_calendar.dart';
         ],
       )
 ```
-
-<br>
-<br>
