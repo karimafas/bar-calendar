@@ -82,7 +82,7 @@ The CalendarEvent object includes information on the events displayed in the cal
 | `EventBarSize eventBarSize` | Defines whether the event should be shown in a large or small bar. |
 | `List<CalendarEvent> events` | A list of events to display. |
 
-### EventBarDecoration
+## EventBarDecoration
 An object that allows further customisation of an event bar.
 
 |  Properties  |   Description   |
