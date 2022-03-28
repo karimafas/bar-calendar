@@ -25,15 +25,9 @@ class HomePage extends StatelessWidget {
         headerDecoration:
             CalendarHeaderDecoration(backgroundColor: Color(0xFFBADFFF)),
         events: [
-          CalendarEvent(
-              title: 'Project 1',
-              start: DateTime.now(),
-              end: DateTime.now().add(const Duration(days: 8))),
-          CalendarEvent(
-              title: 'Project 2',
-              start: DateTime.now(),
-              end: DateTime.now().add(const Duration(days: 8))),
-          CalendarEvent(
+          CalendarEvent(title: 'Project 1', eventBarSize: EventBarSize.large),
+          CalendarEvent(title: 'Project 2'),
+          /* CalendarEvent(
               title: 'Project 3',
               eventBarSize: EventBarSize.large,
               start: DateTime.now().subtract(const Duration(days: 3)),
@@ -42,7 +36,7 @@ class HomePage extends StatelessWidget {
               title: 'Project 4',
               eventBarSize: EventBarSize.large,
               start: DateTime.now().subtract(const Duration(days: 5)),
-              end: DateTime.now().add(const Duration(days: 4)))
+              end: DateTime.now().add(const Duration(days: 4))) */
         ],
       ),
     ));

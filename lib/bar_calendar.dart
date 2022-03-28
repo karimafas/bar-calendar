@@ -104,10 +104,10 @@ class CalendarEvent {
   Color? color;
 
   /// The event's start date.
-  DateTime start;
+  DateTime? start;
 
   /// The event's end date.
-  DateTime end;
+  DateTime? end;
 
   /// The event bar's size (large or small).
   EventBarSize eventBarSize;
@@ -118,8 +118,8 @@ class CalendarEvent {
   CalendarEvent(
       {required this.title,
       this.color,
-      required this.start,
-      required this.end,
+      this.start,
+      this.end,
       this.decoration,
       this.eventBarSize = EventBarSize.small});
 }
@@ -209,17 +209,21 @@ class _BarCalendarState extends State<BarCalendar> {
   void initState() {
     super.initState();
 
-    List<DateTime> startDates = widget.events.map((e) => e.start).toList();
+    List<DateTime?> startDates = widget.events
+        .where((e) => e.start != null)
+        .map((e) => e.start)
+        .toList();
     startDates = startDates.toList();
     minDate = startDates.isEmpty
         ? DateTime.now().subtract(const Duration(days: 7))
-        : startDates.reduce((min, e) => e.isBefore(min) ? e : min);
+        : startDates.reduce((min, e) => e!.isBefore(min!) ? e : min)!;
 
-    List<DateTime> endDates = widget.events.map((e) => e.end).toList();
+    List<DateTime?> endDates =
+        widget.events.where((e) => e.end != null).map((e) => e.end).toList();
     endDates = endDates.toList();
     maxDate = endDates.isEmpty
         ? DateTime.now().add(const Duration(days: 7))
-        : endDates.reduce((max, e) => e.isAfter(max) ? e : max);
+        : endDates.reduce((max, e) => e!.isAfter(max!) ? e : max)!;
   }
 
   @override
@@ -543,9 +547,11 @@ class EventBarLarge extends StatelessWidget {
     DateFormat formatter = DateFormat('d MMMM');
     return Row(
       children: [
-        Expanded(flex: daysBetween(minDate, event.start), child: Container()),
         Expanded(
-          flex: daysBetween(event.start, event.end),
+            flex: event.start == null ? 0 : daysBetween(minDate, event.start!),
+            child: Container()),
+        Expanded(
+          flex: daysBetween(event.start ?? minDate, event.end ?? maxDate),
           child: Container(
               height: 100,
               margin: const EdgeInsets.only(bottom: 15),
@@ -585,7 +591,7 @@ class EventBarLarge extends StatelessWidget {
                         Flexible(
                           child: SizedBox(
                             child: Text(
-                              '${formatter.format(event.start)} ${' - ${formatter.format(event.end)}'}',
+                              '${event.start == null ? 'Always' : formatter.format(event.start!)} ${' - ${event.end == null ? 'always' : formatter.format(event.end!)}'}',
                               style: decoration?.dates ?? _display3,
                               overflow: TextOverflow.fade,
                               maxLines: 1,
@@ -599,7 +605,9 @@ class EventBarLarge extends StatelessWidget {
                 ),
               )),
         ),
-        Expanded(flex: daysBetween(event.end, maxDate), child: Container()),
+        Expanded(
+            flex: event.end == null ? 0 : daysBetween(event.end!, maxDate),
+            child: Container()),
       ],
     );
   }
@@ -624,9 +632,11 @@ class EventBarSmall extends StatelessWidget {
     DateFormat formatter = DateFormat('d MMMM');
     return Row(
       children: [
-        Expanded(flex: daysBetween(minDate, event.start), child: Container()),
         Expanded(
-          flex: daysBetween(event.start, event.end),
+            flex: event.start == null ? 0 : daysBetween(minDate, event.start!),
+            child: Container()),
+        Expanded(
+          flex: daysBetween(event.start ?? minDate, event.end ?? maxDate),
           child: Container(
               height: 55,
               margin: const EdgeInsets.only(bottom: 15),
@@ -663,7 +673,7 @@ class EventBarSmall extends StatelessWidget {
                     Flexible(
                       child: SizedBox(
                         child: Text(
-                            '${formatter.format(event.start)} ${' - ${formatter.format(event.end)}'}',
+                            '${event.start == null ? 'Always' : formatter.format(event.start!)} ${' - ${event.end == null ? 'always' : formatter.format(event.end!)}'}',
                             overflow: TextOverflow.fade,
                             maxLines: 1,
                             softWrap: false,
@@ -674,7 +684,9 @@ class EventBarSmall extends StatelessWidget {
                 ),
               )),
         ),
-        Expanded(flex: daysBetween(event.end, maxDate), child: Container()),
+        Expanded(
+            flex: event.end == null ? 0 : daysBetween(event.end!, maxDate),
+            child: Container()),
       ],
     );
   }

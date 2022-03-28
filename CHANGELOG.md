@@ -17,3 +17,7 @@
 
 * Removed superfluous dependencies
 
+## 0.0.5
+
+* More customisation options
+* Updated documentation
