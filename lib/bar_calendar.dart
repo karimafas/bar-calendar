@@ -147,8 +147,10 @@ class EventBarDecoration {
   TextStyle? main;
   TextStyle? dates;
   Icon? icon;
+  Color? progressionBarColor;
 
-  EventBarDecoration({this.main, this.dates, this.icon});
+  EventBarDecoration(
+      {this.main, this.dates, this.icon, this.progressionBarColor});
 }
 
 /// Defines which size event should be displayed in the calendar.
@@ -581,7 +583,9 @@ class EventBarLarge extends StatelessWidget {
                             height: 4,
                             width: 70,
                             decoration: BoxDecoration(
-                                color: Colors.blue.withOpacity(.2),
+                                color: decoration?.progressionBarColor
+                                        ?.withOpacity(.2) ??
+                                    Colors.blue.withOpacity(.2),
                                 borderRadius: BorderRadius.circular(3)),
                           ),
                           Container(
@@ -593,7 +597,8 @@ class EventBarLarge extends StatelessWidget {
                                         70) /
                                     daysBetween(event.start!, event.end!),
                             decoration: BoxDecoration(
-                                color: Colors.blue,
+                                color: decoration?.progressionBarColor ??
+                                    Colors.blue,
                                 borderRadius: BorderRadius.circular(3)),
                           ),
                         ],
