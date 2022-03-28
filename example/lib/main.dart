@@ -21,29 +21,19 @@ class HomePage extends StatelessWidget {
         child: SizedBox(
       width: MediaQuery.of(context).size.width,
       child: BarCalendar(
-        backgroundColor: Color(0xFFE2F1FF),
+        backgroundColor: const Color(0xFFE2F1FF),
         headerDecoration:
-            CalendarHeaderDecoration(backgroundColor: Color(0xFFBADFFF)),
+            CalendarHeaderDecoration(backgroundColor: const Color(0xFFBADFFF)),
         events: [
           CalendarEvent(
               title: 'Project 1',
               eventBarSize: EventBarSize.large,
               decoration: EventBarDecoration(progressionBarColor: Colors.red),
-              start: DateTime.now().subtract(Duration(days: 5)),
-              end: DateTime.now().add(Duration(days: 6))),
+              start: DateTime.now().subtract(const Duration(days: 5)),
+              end: DateTime.now().add(const Duration(days: 6))),
           CalendarEvent(
               title: 'Project 2',
               eventBarSize: EventBarSize.large),
-          /* CalendarEvent(
-              title: 'Project 3',
-              eventBarSize: EventBarSize.large,
-              start: DateTime.now().subtract(const Duration(days: 3)),
-              end: DateTime.now().add(const Duration(days: 10))),
-          CalendarEvent(
-              title: 'Project 4',
-              eventBarSize: EventBarSize.large,
-              start: DateTime.now().subtract(const Duration(days: 5)),
-              end: DateTime.now().add(const Duration(days: 4))) */
         ],
       ),
     ));

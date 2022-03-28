@@ -49,3 +49,46 @@ import 'package:bar_calendar/bar_calendar.dart';
         ],
       )
 ```
+
+## BarCalendar
+CalendarEvent objects must be wrapped in a BarCalendar.
+
+|  Properties  |   Description   |
+|--------------|-----------------|
+| `Color backgroundColor` | The background color of the calendar. |
+| `CalendarHeaderDecoration headerDecoration` | An object that allows full header customisation. |
+| `List<CalendarEvent> events` | A list of events to display. |
+
+### CalendarHeaderDecoration
+An object that allows full header customisation.
+
+|  Properties  |   Description   |
+|--------------|-----------------|
+| `Color? backgroundColor` | The background color of the header (default: Colors.white). |
+| `TextStyle? day` | TextStyle applied to the day of month (number). |
+| `TextStyle? day` | TextStyle applied to the day of (letter). |
+| `TextStyle? day` | TextStyle applied to the month of (when calendar is in condensed view). |
+
+## CalendarEvent
+The CalendarEvent object includes information on the events displayed in the calendar.
+
+|  Properties  |   Description   |
+|--------------|-----------------|
+| `String title` | The event title, displayed on the calendar. |
+| `Color? color` | The background color for the event bar (default: Colors.white). |
+| `DateTime? start` | Event start date - if set to null, it is assumed the event has an indefinite start date in the past. |
+| `DateTime? end` | Event end date - if set to null, it is assumed the event has an indefinite end date in the future. |
+| `EventBarDecoration? decoration` | An object that allows further customisation of the event bar. |
+| `EventBarSize eventBarSize` | Defines whether the event should be shown in a large or small bar. |
+| `List<CalendarEvent> events` | A list of events to display. |
+
+### EventBarDecoration
+An object that allows further customisation of an event bar.
+
+|  Properties  |   Description   |
+|--------------|-----------------|
+| `TextStyle? main` | TextStyle for the event tytle. |
+| `TextStyle? dates` | TextStyle for the event subtitle. |
+| `Icon? icon` | An icon to show before the event subtitle (default: Icons.flag). |
+| `Color? progressionBarColor` | Color of the event progression bar. |
+

@@ -27,3 +27,4 @@
 * Support for events with indefinite duration
 * Event progress bar indicator
 * Bug fixes
+* More extensive documentation
