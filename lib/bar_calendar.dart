@@ -354,7 +354,9 @@ class CurrentDayIndicator extends StatelessWidget {
                           children: [
                             Container(
                                 width: 2.5,
-                                color: d.day == DateTime.now().day
+                                color: d.day == DateTime.now().day &&
+                                        d.month == DateTime.now().month &&
+                                        d.year == DateTime.now().year
                                     ? Colors.blue.withOpacity(.5)
                                     : Colors.transparent),
                           ],

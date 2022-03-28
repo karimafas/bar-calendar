@@ -13,7 +13,7 @@
 * Updated readme and package info
 * Added more customisation options
 
-## 0.0.4
+## 0.0.4
 
 * Removed superfluous dependencies
 
@@ -25,3 +25,4 @@
 ## 0.0.6
 
 * Support for events with indefinite duration
+* Event progress bar indicator
