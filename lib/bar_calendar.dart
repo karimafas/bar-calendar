@@ -545,6 +545,7 @@ class EventBarLarge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     DateFormat formatter = DateFormat('d MMMM');
+
     return Row(
       children: [
         Expanded(
@@ -570,6 +571,31 @@ class EventBarLarge extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    if (event.end != null && event.end != null)
+                      Stack(
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.only(bottom: 10),
+                            height: 4,
+                            width: 70,
+                            decoration: BoxDecoration(
+                                color: Colors.blue.withOpacity(.2),
+                                borderRadius: BorderRadius.circular(3)),
+                          ),
+                          Container(
+                            margin: const EdgeInsets.only(bottom: 10),
+                            height: 4,
+                            width: DateTime.now().isAfter(event.end!)
+                                ? 70
+                                : (daysBetween(event.start!, DateTime.now()) *
+                                        70) /
+                                    daysBetween(event.start!, event.end!),
+                            decoration: BoxDecoration(
+                                color: Colors.blue,
+                                borderRadius: BorderRadius.circular(3)),
+                          ),
+                        ],
+                      ),
                     Flexible(
                       child: SizedBox(
                         child: Text(

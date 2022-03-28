@@ -21,3 +21,7 @@
 
 * More customisation options
 * Updated documentation
+
+## 0.0.6
+
+* Support for events with indefinite duration
