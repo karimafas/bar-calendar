@@ -29,7 +29,7 @@ class HomePage extends StatelessWidget {
               title: 'Project 1',
               eventBarSize: EventBarSize.large,
               decoration: EventBarDecoration(progressionBarColor: Colors.red),
-              start: DateTime.now().subtract(const Duration(days: 5)),
+              start: null,
               end: DateTime.now().add(const Duration(days: 6))),
           CalendarEvent(
               title: 'Project 2',

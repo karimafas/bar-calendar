@@ -575,7 +575,7 @@ class EventBarLarge extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    if (event.end != null && event.end != null)
+                    if (event.start != null && event.end != null)
                       Stack(
                         children: [
                           Container(
@@ -593,9 +593,11 @@ class EventBarLarge extends StatelessWidget {
                             height: 4,
                             width: DateTime.now().isAfter(event.end!)
                                 ? 70
-                                : (daysBetween(event.start!, DateTime.now()) *
+                                : (daysBetween(event.start ?? DateTime.now(),
+                                            DateTime.now()) *
                                         70) /
-                                    daysBetween(event.start!, event.end!),
+                                    daysBetween(event.start ?? DateTime.now(),
+                                        event.end!),
                             decoration: BoxDecoration(
                                 color: decoration?.progressionBarColor ??
                                     Colors.blue,

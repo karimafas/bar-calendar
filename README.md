@@ -22,7 +22,7 @@ This package allows the creation of event-based project calendars.
 In your pubspec.yaml
 ```yaml
 dependencies:
-  bar_calendar: ^0.0.5
+  bar_calendar: ^0.0.6
 ```
 ```dart
 import 'package:bar_calendar/bar_calendar.dart';
@@ -59,7 +59,7 @@ CalendarEvent objects must be wrapped in a BarCalendar.
 | `CalendarHeaderDecoration headerDecoration` | An object that allows full header customisation. |
 | `List<CalendarEvent> events` | A list of events to display. |
 
-### CalendarHeaderDecoration
+## CalendarHeaderDecoration
 An object that allows full header customisation.
 
 |  Properties  |   Description   |
@@ -82,7 +82,7 @@ The CalendarEvent object includes information on the events displayed in the cal
 | `EventBarSize eventBarSize` | Defines whether the event should be shown in a large or small bar. |
 | `List<CalendarEvent> events` | A list of events to display. |
 
-### EventBarDecoration
+## EventBarDecoration
 An object that allows further customisation of an event bar.
 
 |  Properties  |   Description   |
