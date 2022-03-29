@@ -28,3 +28,7 @@
 * Event progress bar indicator
 * Bug fixes
 * More extensive documentation
+
+## 0.0.6
+
+* Bug fixes
