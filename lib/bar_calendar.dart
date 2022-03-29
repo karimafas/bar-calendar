@@ -1,5 +1,7 @@
 library bar_calendar;
 
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -162,12 +164,14 @@ class BarCalendar extends StatefulWidget {
       {Key? key,
       required this.events,
       this.backgroundColor,
-      this.headerDecoration})
+      this.headerDecoration,
+      this.borderRadius})
       : super(key: key);
 
   final List<CalendarEvent> events;
   final Color? backgroundColor;
   final CalendarHeaderDecoration? headerDecoration;
+  final double? borderRadius;
 
   @override
   State<BarCalendar> createState() => _BarCalendarState();
@@ -237,10 +241,35 @@ class _BarCalendarState extends State<BarCalendar> {
       days.add(minDate.add(Duration(days: i)));
     }
 
+    DateTime _now = DateTime.now();
+    for (final e in widget.events) {
+      if (e.start != null) {
+        setState(() {
+          e.start = DateTime(
+              _now.year,
+              e.start!.month,
+              e.start!.day,
+              e.start!.hour,
+              e.start!.minute,
+              e.start!.second,
+              e.start!.millisecond);
+        });
+      }
+
+      if (e.end != null) {
+        setState(() {
+          e.end = DateTime(_now.year, e.end!.month, e.end!.day, e.end!.hour,
+              e.end!.minute, e.end!.second, e.end!.millisecond);
+        });
+      }
+    }
+
     return LayoutBuilder(builder: (layoutContext, constraints) {
       final double headerWidth = constraints.maxWidth;
       return Container(
-        color: widget.backgroundColor ?? Colors.grey.withOpacity(.4),
+        decoration: BoxDecoration(
+            color: widget.backgroundColor ?? Colors.grey.withOpacity(.4),
+            borderRadius: BorderRadius.circular(widget.borderRadius ?? 0)),
         child: Stack(
           children: [
             DaySeparators(
@@ -266,7 +295,8 @@ class _BarCalendarState extends State<BarCalendar> {
                 daysBetween: days,
                 minDate: minDate,
                 maxDate: maxDate,
-                decoration: widget.headerDecoration),
+                decoration: widget.headerDecoration,
+                borderRadius: widget.borderRadius),
             CurrentDayIndicator(
                 days: days, headerWidth: headerWidth, totalDays: totalDays),
             Positioned(
@@ -426,13 +456,15 @@ class Header extends StatelessWidget {
       required this.daysBetween,
       required this.minDate,
       required this.maxDate,
-      this.decoration})
+      this.decoration,
+      this.borderRadius})
       : super(key: key);
 
   final List<DateTime> daysBetween;
   final DateTime minDate;
   final DateTime maxDate;
   final CalendarHeaderDecoration? decoration;
+  final double? borderRadius;
 
   @override
   Widget build(BuildContext context) {
@@ -462,6 +494,9 @@ class Header extends StatelessWidget {
           height: headerHeight,
           decoration: BoxDecoration(
               color: decoration?.backgroundColor ?? Colors.white,
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(borderRadius ?? 0),
+                  topRight: Radius.circular(borderRadius ?? 0)),
               boxShadow: [
                 BoxShadow(blurRadius: 5, color: Colors.black.withOpacity(.2))
               ]),
@@ -548,7 +583,7 @@ class EventBarLarge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    DateFormat formatter = DateFormat('d MMMM');
+    DateFormat formatter = DateFormat("d MMMM yy");
 
     return Row(
       children: [
@@ -664,7 +699,7 @@ class EventBarSmall extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    DateFormat formatter = DateFormat('d MMMM');
+    DateFormat formatter = DateFormat("d MMMM yy");
     return Row(
       children: [
         Expanded(

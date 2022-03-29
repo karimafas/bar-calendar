@@ -19,21 +19,28 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
         child: SizedBox(
-      width: MediaQuery.of(context).size.width,
+      height: 600,
+      width: 600,
       child: BarCalendar(
         backgroundColor: const Color(0xFFE2F1FF),
         headerDecoration:
             CalendarHeaderDecoration(backgroundColor: const Color(0xFFBADFFF)),
         events: [
           CalendarEvent(
-              title: 'Project 1',
-              eventBarSize: EventBarSize.large,
-              decoration: EventBarDecoration(progressionBarColor: Colors.red),
-              start: null,
-              end: DateTime.now().add(const Duration(days: 6))),
+              title: 'Introducing: Boxing.',
+              start: DateTime(2022, 3, 4),
+              end: DateTime(2022, 3, 23)),
           CalendarEvent(
-              title: 'Project 2',
-              eventBarSize: EventBarSize.large),
+              title: 'hitlist', end: DateTime(2022, 5, 31), start: null),
+          CalendarEvent(title: 'update', start: null, end: null),
+          CalendarEvent(
+              title: 'Curated Content For You',
+              start: DateTime(2022, 3, 4),
+              end: DateTime(2022, 3, 31)),
+          CalendarEvent(
+              title: 'Parkrun Launch',
+              start: DateTime(2059, 1, 31),
+              end: DateTime(2022, 3, 4)),
         ],
       ),
     ));
