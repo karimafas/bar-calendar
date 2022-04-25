@@ -37,3 +37,7 @@
 
 * Bug fixes
 * Calendar border radius
+
+## 0.0.9
+
+* Improved stability for very long events

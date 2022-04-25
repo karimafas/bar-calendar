@@ -22,7 +22,7 @@ This package allows the creation of event-based project calendars.
 In your pubspec.yaml
 ```yaml
 dependencies:
-  bar_calendar: ^0.0.8
+  bar_calendar: ^0.0.9
 ```
 ```dart
 import 'package:bar_calendar/bar_calendar.dart';
