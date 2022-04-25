@@ -60,7 +60,7 @@ CalendarEvent objects must be wrapped in a BarCalendar.
 | `List<CalendarEvent> events` | A list of events to display. |
 | `double borderRadius` | Defined the border radius for the calendar. |
 
-## CalendarHeaderDecoration
+### CalendarHeaderDecoration
 An object that allows full header customisation.
 
 |  Properties  |   Description   |
