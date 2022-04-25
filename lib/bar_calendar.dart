@@ -215,6 +215,17 @@ class _BarCalendarState extends State<BarCalendar> {
   void initState() {
     super.initState();
 
+    // Regulate event dates.
+    for (final event in widget.events) {
+      if (event.start != null && event.start!.year > DateTime.now().year) {
+        event.start = null;
+      }
+
+      if (event.end != null && event.end!.year > DateTime.now().year) {
+        event.end = null;
+      }
+    }
+
     List<DateTime?> startDates = widget.events
         .where((e) => e.start != null)
         .map((e) => e.start)

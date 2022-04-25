@@ -20,14 +20,15 @@ class HomePage extends StatelessWidget {
     return Center(
         child: SizedBox(
       height: 600,
-      width: 600,
+      width: 1000,
       child: BarCalendar(
-        backgroundColor: const Color(0xFFE2F1FF),
+        backgroundColor: Colors.white,
         headerDecoration:
-            CalendarHeaderDecoration(backgroundColor: const Color(0xFFBADFFF)),
+            CalendarHeaderDecoration(backgroundColor: Colors.white),
         events: [
           CalendarEvent(
               title: 'Introducing: Boxing.',
+              eventBarSize: EventBarSize.large,
               start: DateTime(2022, 3, 4),
               end: DateTime(2022, 3, 23)),
           CalendarEvent(
@@ -39,8 +40,8 @@ class HomePage extends StatelessWidget {
               end: DateTime(2022, 3, 31)),
           CalendarEvent(
               title: 'Parkrun Launch',
-              start: DateTime(2059, 1, 31),
-              end: DateTime(2022, 3, 4)),
+              end: DateTime(2059, 1, 31),
+              start: DateTime(2022, 3, 4)),
         ],
       ),
     ));
